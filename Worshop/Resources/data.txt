@@ -1,0 +1,2 @@
+*** Variables ***
+${start_url}      http://www.google.ro

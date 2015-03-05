@@ -1,0 +1,3 @@
+*** Variables ***
+${search text field}    id=lst-ib
+${auto suggest}    //*[contains(@class, "sbsb_c") and contains(@class, "gsfs")]

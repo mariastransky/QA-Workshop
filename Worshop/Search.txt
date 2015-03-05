@@ -1,0 +1,10 @@
+*** Settings ***
+Test Teardown     Close All Browsers
+Resource          Resources/keywords.txt
+
+*** Test Cases ***
+Search Google
+    Open Google Page
+    Input Text    ${search text field}    test
+    ${list}    Get Auto Suggest Values
+    Log List    ${list}
