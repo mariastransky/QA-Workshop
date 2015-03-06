@@ -1,0 +1,22 @@
+*** Settings ***
+Test Teardown     Close All Browsers
+Resource          Resources/keywords.txt
+
+*** Test Cases ***
+Search Google
+    Open Google Page
+    Input Text    ${search text field}    test
+    Wait Until Element Is Visible    ${as}    error="Nu avem auto suggest"
+    ${no of items}    Get Matching Xpath Count    ${as item locator}
+    Log    ${no of items}
+    ${position}    Set Variable    3
+    ${txt}    Set Variable    test
+    ${item locator text}    Replace String    ${as item locator placeholder}    >position<    0
+    Element Text Should Be    ${item locator text}    ${txt}    message="Nu exista textul '${txt}'"
+    @{items values}    Create List
+    :FOR    ${counter}    IN RANGE    ${no of items}
+    \    ${counter}    Convert To String    ${counter}
+    \    ${item locator text}    Replace String    ${as item locator placeholder}    >position<    ${counter}
+    \    ${txt}    Get Text    ${item locator text}
+    \    Append To List    ${items values}    ${txt}
+    Log List    ${items values}

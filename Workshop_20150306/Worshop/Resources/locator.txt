@@ -1,0 +1,6 @@
+*** Variables ***
+${search text field}    id=lst-ib
+${auto suggest}    //*[contains(@class, "sbsb_c") and contains(@class, "gsfs")]
+${as}             css=.sbdd_b
+${as item locator}    //*[starts-with(@id, "sbse")]
+${as item locator placeholder}    //*[starts-with(@id, "sbse>position<")]

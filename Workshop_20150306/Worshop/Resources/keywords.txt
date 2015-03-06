@@ -1,0 +1,24 @@
+*** Settings ***
+Resource          locator.txt
+Library           Selenium2Library
+Library           Screenshot
+Resource          data.txt
+Library           Collections
+Library           String
+
+*** Keywords ***
+Open Google Page
+    [Arguments]    ${url}=${start_url}    ${browser}=ff
+    Open Browser    ${url}    browser=${browser}
+    Wait Until Element Is Visible    ${search text field}    error="textfield de search nu a fost afisat"
+
+Get Auto Suggest Values
+    Wait Until Element Is Visible    ${auto suggest}    error="Auto suggest listul nu s-a afisat"
+    ${no of items}    Get Matching Xpath Count    ${auto suggest}
+    @{values}    Create List
+    : FOR    ${contor}    IN RANGE    1    ${no of items} + 1
+    \    ${ietm_val}    Get Text    ${auto suggest}[${contor}]
+    \    Append To List    ${values}    ${ietm_val}
+    \    Log    ${ietm_val}
+    Take Screenshot
+    [Return]    ${values}
