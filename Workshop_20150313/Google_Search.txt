@@ -1,0 +1,8 @@
+*** Settings ***
+Library           Selenium2Library
+
+*** Test Cases ***
+Select 1st element autosuggest
+    Open Browser    http://www.google.com
+    Wait Until Element Is Visible    id=lst-ib
+    Input Text    robot framework

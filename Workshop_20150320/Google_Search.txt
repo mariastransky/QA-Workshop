@@ -1,0 +1,25 @@
+*** Settings ***
+Documentation     Open Google, input search term, select random element from autosuggest, then verify that element selected from list is in the first result
+Library           Selenium2Library
+Library           String
+Library           Collections
+
+*** Test Cases ***
+Select random element from autosuggest
+    Open Browser    https://www.google.ro
+    Wait Until Element Is Visible    id=lst-ib
+    Input Text    id=lst-ib    robot framework
+    Wait Until Element Is Visible    //*[contains(@id,"sbse")]
+    ${noitems}    Get Matching Xpath Count    //*[contains(@id,"sbse")]
+    Log    ${noitems}
+    ${selectedelement}    Evaluate    random.randint(0,${noitems}-1)     random
+    ${elementvalue}    Get Text    id=sbse${selectedelement}
+    @{wordselement}    Split String    ${elementvalue}
+    Click Element    id=sbse${selectedelement}
+    Wait Until Element Is Visible    id=center_col
+    ${allresults}    Get Text    id=center_col
+    ${found}    Set Variable    ${False}
+    :FOR    ${word}    In    @{wordselement}
+    \    ${status}    Run Keyword And Return Status    Element Should Contain    id=center_col    ${word}
+    \    ${found}    Set Variable If    ${status}    ${True}
+    Run Keyword Unless    ${found}    Fail    msg="no match"
